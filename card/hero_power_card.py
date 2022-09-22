@@ -38,12 +38,92 @@ class LesserHeal(HeroPowerCard):
         click.use_skill_point_mine(args[0], state.my_minion_num)
         time.sleep(1)
 
+
 class BallistaShot(HeroPowerCard):
     @classmethod
     def best_h_and_arg(cls, state, hand_card_index):
-        return 1,-1
+        return 1, -1
 
     @classmethod
     def use_with_arg(cls, state, card_index, *args):
         click.use_skill_no_point()
         time.sleep(1)
+
+
+class ArmorUp(HeroPowerCard):
+    @classmethod
+    def best_h_and_arg(cls, state, hand_card_index):
+        return 1, -1
+
+    @classmethod
+    def use_with_arg(cls, state, card_index, *args):
+        click.use_skill_no_point()
+        time.sleep(1)
+
+
+class Reinforce(HeroPowerCard):
+    @classmethod
+    def best_h_and_arg(cls, state, hand_card_index):
+        if not state.my_hero_power.exhausted \
+                and state.my_minion_num < 7:
+            return 0.1,
+        else:
+            return 0,
+
+    @classmethod
+    def use_with_arg(cls, state, card_index, *args):
+        click.use_skill_no_point()
+        time.sleep(1)
+
+
+class ShapeShift(HeroPowerCard):
+    @classmethod
+    def best_h_and_arg(cls, state, hand_card_index):
+        if state.my_hero_power.exhausted:
+            return 0,
+
+        best_h = -0.1 + state.oppo_hero.delta_h_after_damage(1)
+        best_oppo_index = -1
+
+        for oppo_index, oppo_minion in enumerate(state.oppo_minions):
+            if not oppo_minion.can_be_pointed_by_minion:
+                continue
+
+            delta_h = -0.1 + oppo_minion.delta_h_after_damage(1)
+            if delta_h > best_h:
+                best_h = delta_h
+                best_oppo_index = oppo_index
+
+        return best_h, best_oppo_index
+
+    @classmethod
+    def use_with_arg(cls, state, card_index, *args):
+        click.use_skill_no_point()
+        time.sleep(1)
+
+
+class FireBlast(HeroPowerCard):
+    @classmethod
+    def best_h_and_arg(cls, state, hand_card_index):
+        if state.my_hero_power.exhausted:
+            return 0,
+
+        best_h = -0.1 + state.oppo_hero.delta_h_after_damage(1)
+        best_oppo_index = -1
+
+        for oppo_index, oppo_minion in enumerate(state.oppo_minions):
+            if not oppo_minion.can_be_pointed_by_minion:
+                continue
+
+            delta_h = -0.1 + oppo_minion.delta_h_after_damage(1)
+            if delta_h > best_h:
+                best_h = delta_h
+                best_oppo_index = oppo_index
+
+        return best_h, best_oppo_index
+
+    @classmethod
+    def use_with_arg(cls, state, card_index, *args):
+        click.use_skill_point_oppo(args[0], state.oppo_minion_num)
+        time.sleep(1)
+

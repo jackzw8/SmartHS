@@ -1,7 +1,3 @@
-"""
-主体代码引自 Demon_Hunter 的CSDN博客, 博客URL:https://blog.csdn.net/zhuisui_woxin/article/details/84345036
-"""
-
 import win32gui
 import win32ui
 import win32con
@@ -9,8 +5,8 @@ import win32com.client
 import win32api
 import win32process
 import numpy
-from print_info import *
 
+from print_info import *
 from constants.constants import *
 
 
@@ -78,8 +74,8 @@ def catch_screen(name=None):
     if hwnd == 0:
         return
 
-    width = 1960
-    height = 1080
+    width = WIDTH
+    height = HEIGHT
     # 返回句柄窗口的设备环境，覆盖整个窗口，包括非客户区，标题栏，菜单，边框 DC device context
     hwin = win32gui.GetDesktopWindow()
     hwndDC = win32gui.GetWindowDC(hwin)
@@ -130,30 +126,18 @@ def get_state():
         return FSM_LEAVE_HS
 
     im_opencv = catch_screen()
-
-    if pixel_very_similar(im_opencv, 1070, 1090, [20, 51, 103]) or \
-            pixel_very_similar(im_opencv, 305, 705, [21, 43, 95]):  # 万圣节主界面会变
+    #debug_print(im_opencv[100][100][:3])
+    if pixel_very_similar(im_opencv, 100, 100, [21, 25, 53]) or \
+            pixel_very_similar(im_opencv, 305, 705, [21, 43, 95]):  # ？ 万圣节主界面会变
         return FSM_MAIN_MENU
-    elif pixel_very_similar(im_opencv, 1070, 1090, [8, 18, 24]):
+    elif pixel_very_similar(im_opencv, 100, 100, [8, 17, 24]):
         return FSM_CHOOSING_HERO
-    elif pixel_very_similar(im_opencv, 1070, 1090, [17, 18, 19]):
+    elif pixel_very_similar(im_opencv, 100, 100, [16, 17, 18]):
         return FSM_MATCHING
-    elif pixel_very_similar(im_opencv, 860, 960, [71, 71, 71]):
+    elif pixel_very_similar(im_opencv, 200, 200, [24, 43, 62]):  # 同FSM_CHOOSING_HERO了
         return FSM_CHOOSING_CARD
     else:
         return FSM_BATTLING
-
-    # if list(im_opencv[1070][1090][:3]) == [20, 51, 104] or \
-    #         list(im_opencv[305][705][:3]) == [21, 43, 95]:  # 万圣节主界面会变
-    #     return FSM_MAIN_MENU
-    # if list(im_opencv[1070][1090][:3]) == [8, 18, 24]:
-    #     return FSM_CHOOSING_HERO
-    # if list(im_opencv[1070][1090][:3]) == [17, 18, 19]:
-    #     return FSM_MATCHING
-    # if list(im_opencv[860][960][:3]) == [71, 71, 71]:
-    #     return FSM_CHOOSING_CARD
-    # return FSM_BATTLING
-
 
 # def image_hash(img):
 #     img = Image.fromarray(img)

@@ -19,6 +19,20 @@ def rand_sleep(interval):
 
 
 def click_button(x, y, button):
+    x = x*SCALE
+    y = y*SCALE
+    x += random.randint(-5, 5)
+    y += random.randint(-5, 5)
+    mouse = Controller()
+    rand_sleep(0.1)
+    mouse.position = (x, y)
+    #debug_print(mouse.position)
+    rand_sleep(0.1)
+    mouse.press(button)
+    rand_sleep(0.1)
+    mouse.release(button)
+
+def click_button_old(x, y, button):
     x += random.randint(-5, 5)
     y += random.randint(-5, 5)
     mouse = Controller()
@@ -28,7 +42,6 @@ def click_button(x, y, button):
     mouse.press(button)
     rand_sleep(0.1)
     mouse.release(button)
-
 
 def left_click(x, y):
     click_button(x, y, Button.left)
@@ -246,4 +259,5 @@ def enter_HS():
     rand_sleep(1)
 
     left, top, right, bottom = win32gui.GetWindowRect(battlenet_hwnd)
-    left_click(left + 180, bottom - 110)
+    #left_click(left + 180, bottom - 110)
+    click_button_old(left + 180, bottom - 110, Button.left)

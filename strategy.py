@@ -389,7 +389,8 @@ class StrategyState:
 
             detail_card = hand_card.detail_card
             if detail_card is None:
-                if hand_card.cardtype == CARD_MINION and not hand_card.battlecry:
+#               if hand_card.cardtype == CARD_MINION and not hand_card.battlecry:
+                if hand_card.cardtype == CARD_MINION:
                     delta_h, *args = MinionNoPoint.best_h_and_arg(self, hand_card_index)
                     debug_print(f"卡牌-[{hand_card_index}]({hand_card.name}) "
                                 f"delta_h: {delta_h}, *args: {[]} (默认行为) ")

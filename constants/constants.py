@@ -6,6 +6,11 @@ HEARTHSTONE_POWER_LOG_PATH = "D:/战网/Hearthstone/Logs/Power.log"
 # 可以输入中文
 YOUR_NAME = "ChangeThis#54321"
 
+# 分辨率及缩放
+WIDTH = 1280  # 1280
+HEIGHT = 720  # 720
+SCALE = 2/3   # 2/3
+
 # 关于控制台信息打印的设置
 DEBUG_PRINT = True
 WARN_PRINT = True

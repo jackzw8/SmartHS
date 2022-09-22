@@ -8,9 +8,50 @@ ID2CARD_DICT = {
     "COIN": Coin,
 
     # 英雄技能
-    "TOTEMIC_CALL": TotemicCall,
-    "LESSER_HEAL": LesserHeal,
-    "BALLISTA_SHOT": BallistaShot,
+    "TOTEMIC_CALL": TotemicCall, # 萨满
+    "LESSER_HEAL": LesserHeal, # 牧师
+    "BALLISTA_SHOT": BallistaShot, # 猎人
+    "FIRE_BLAST": FireBlast, # 法师
+    "SHAPE_SHIFT": ShapeShift, # 德鲁伊
+    "ARMOR_UP": ArmorUp, # 战士
+    "REINFORCE": Reinforce, # 骑士
+# 术士  盗贼
+
+    # 经典模式
+    "VAN_CS2_042": FireElemental, # 火元素
+    "VAN_EX1_562": Onyxia, # 奥妮克希亚
+    "VAN_EX1_248": FeralSpirit, # 野性狼魂
+    "VAN_EX1_246": Hex, # 妖术
+    "VAN_EX1_238": LightingBolt, # 闪电箭
+    "VAN_EX1_085": MindControlTech, # 精神控制技师
+    "VAN_EX1_284": AzureDrake, # 碧蓝幼龙
+    "VAN_EX1_259": LightningStorm, # 闪电风暴
+    "VAN_CS2_189": ElvenArcher, # 精灵弓箭手
+    "VAN_CS2_117": EarthenRingFarseer, # 大地之环先知
+    "VAN_EX1_097": Abomination, # 憎恶
+    "VAN_NEW1_021": DoomSayer, # 末日预言者
+    "VAN_NEW1_041": StampedingKodo, # 狂奔科多兽
+    "VAN_EX1_590": BloodKnight, # 血骑士
+    "VAN_EX1_247": StormforgedAxe, # 雷铸战斧
+    "VAN_EX1_536": EaglehornBow,  # 鹰角弓
+    "VAN_EX1_538": UnleashTheHounds,  # 关门放狗
+    "VAN_NEW1_031": AnimalCompanion,  # 动物伙伴
+    "VAN_EX1_534": Highmane,  # 长鬃草原狮
+    "VAN_CS2_203": IronbeakOwl,  # 铁喙猫头鹰
+    "VAN_CS2_022": Polymorph,  # 变形术
+    "VAN_CS2_033": WaterElemental,  # 水元素
+    "VAN_CS2_029": FireBall,  # 火球术
+    "VAN_EX1_116": LeeroyJenkins,  # 火车王！！！！！！
+    "VAN_CS2_024": FrostBolt,  # 寒冰箭
+    "VAN_CS2_023": ArcaneIntellect,  # 奥术智慧
+    "VAN_EX1_277": ArcaneMissiles,  # 奥术飞弹
+    "VAN_EX1_169": Innervate,  # 激活
+    "VAN_CS2_012": Swipe,  # 横扫
+    "VAN_CS2_106": FieryWarAxe,  # 炽炎战斧
+    "VAN_EX1_414": GrommashHellscream,  # 格罗玛什·地狱咆哮
+    "VAN_CS2_097": TruesilverChampion,  # 真银圣剑
+    "VAN_EX1_383": TirionFordring,  # 佛丁
+    "VAN_CS2_093": Consecration,  # 奉献
 
     # 标准模式-牧师
     "YOP_032": ArmorVendor,  # 护甲商贩
@@ -38,20 +79,4 @@ ID2CARD_DICT = {
     "BT_198": SoulMirror,  # 灵魂之镜
     "DMF_053": BloodOfGhuun,  # 戈霍恩之血
 
-    # 经典模式
-    "VAN_CS2_042": FireElemental,
-    "VAN_EX1_562": Onyxia,
-    "VAN_EX1_248": FeralSpirit,
-    "VAN_EX1_246": Hex,
-    "VAN_EX1_238": LightingBolt,
-    "VAN_EX1_085": MindControlTech,
-    "VAN_EX1_284": AzureDrake,
-    "VAN_EX1_259": LightningStorm,
-    "VAN_CS2_189": ElvenArcher,
-    "VAN_CS2_117": EarthenRingFarseer,
-    "VAN_EX1_097": Abomination,
-    "VAN_NEW1_021": DoomSayer,
-    "VAN_NEW1_041": StampedingKodo,
-    "VAN_EX1_590": BloodKnight,
-    "VAN_EX1_247": StormforgedAxe,
 }

@@ -110,7 +110,7 @@ class MinionCard(Card):
             hand_card = state.my_hand_cards[hand_card_index]
             delta_h = hand_card.current_cost / 2 + 1
 
-            if state.my_hero.health <= 10 and hand_card.taunt:
+            if state.my_hero.health <= 20 and hand_card.taunt:  # 优先上墙
                 delta_h *= 1.5
 
             return delta_h, state.my_minion_num  # 默认放到最右边

@@ -418,6 +418,11 @@ def AutoHS_automata():
             sys.exit(0)
         if FSM_state == "":
             FSM_state = get_screen.get_state()
+
+        #FSM_state = get_screen.get_state()
+        #debug_print(FSM_state)
+        time.sleep(1)
+
         FSM_state = FSM_dispatch(FSM_state)
 
 
