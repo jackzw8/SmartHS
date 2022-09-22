@@ -361,7 +361,8 @@ def MainMenuAction():
 def WaitMainMenu():
     print_out()
     while get_screen.get_state() != FSM_MAIN_MENU:
-        click.click_middle()
+        #click.click_middle()  # middle有可能点了中间别的窗口之类
+        click.test_click()
         time.sleep(5)
     return FSM_MAIN_MENU
 
@@ -418,12 +419,12 @@ def AutoHS_automata():
             sys.exit(0)
         if FSM_state == "":
             FSM_state = get_screen.get_state()
-
-        #FSM_state = get_screen.get_state()
-        #debug_print(FSM_state)
-        time.sleep(1)
-
         FSM_state = FSM_dispatch(FSM_state)
+
+#        FSM_state = get_screen.get_state()
+#        debug_print(FSM_state)
+#        time.sleep(1)
+
 
 
 if __name__ == "__main__":
