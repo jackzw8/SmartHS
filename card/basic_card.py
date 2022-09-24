@@ -110,7 +110,7 @@ class MinionCard(Card):
             hand_card = state.my_hand_cards[hand_card_index]
             delta_h = hand_card.current_cost / 2 + 1
 
-            if state.my_hero.health <= 20 and hand_card.taunt:  # 优先上墙
+            if state.my_hero.health <= 15 and hand_card.taunt:  # 优先上墙
                 delta_h *= 1.5
 
             return delta_h, state.my_minion_num  # 默认放到最右边
@@ -127,6 +127,11 @@ class MinionCard(Card):
             # 有飞刀可以多下怪
             if my_minion.card_id == "VAN_NEW1_019":
                 h_sum += 0.5
+
+        for oppo_minion in state.oppo_minions:
+            # 对方有末日大概率也别下怪了  ？
+            if oppo_minion.card_id == "VAN_NEW1_021":
+                h_sum += -1000
 
         return h_sum
 

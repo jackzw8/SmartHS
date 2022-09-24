@@ -84,25 +84,23 @@ def print_out():
     global time_begin
     global game_count
 
-    info_print("-- 进入状态 " + str(FSM_state) + " --")
+    debug_print("-- 进入状态 " + str(FSM_state) + " --")
 
     if FSM_state == FSM_LEAVE_HS:
         warn_print("HearthStone not found! Try to go back to HS")
 
     if FSM_state == FSM_CHOOSING_CARD:
         game_count += 1
-        sys_print("-" * 60)
-        sys_print("第 " + str(game_count) + " 场开始")
+        sys_print("-" * 25 + "第 " + str(game_count) + " 场开始" + "-" * 25)
         time_begin = time.time()
 
     if FSM_state == FSM_QUITTING_BATTLE:
-        sys_print("第 " + str(game_count) + " 场结束")
         time_now = time.time()
         if time_begin > 0:
             sys_print("本场耗时 : {} 分 {} 秒"
                       .format(int((time_now - time_begin) // 60),
                               int(time_now - time_begin) % 60))
-        sys_print("-" * 60)
+        sys_print("-" * 25 + "第 " + str(game_count) + " 场结束" + "-" * 25)
 
     return
 
@@ -235,9 +233,9 @@ def Battling():
             sys_print("对方英雄：" + oppo_hero.name + "("+oppo_hero.query_tag('HEALTH')+")")
             if log_state.my_entity.query_tag("PLAYSTATE") == "WON":
                 win_count += 1
-                sys_print("恭喜，你赢了！共赢了 " + str(win_count) + " 盘！")
+                sys_print("---恭喜，你赢了！共赢了 " + str(win_count) + " 盘！---")
             else:
-                sys_print("遗憾，你输了！")
+                sys_print("---遗憾，你输了！---")
             sys_print("本人第 " + log_state.my_entity.query_tag("TURN") + " 回合")
             return FSM_QUITTING_BATTLE
 

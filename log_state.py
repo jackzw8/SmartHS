@@ -14,6 +14,9 @@ def check_name():
     if MY_NAME == "ChangeThis#54321":
         MY_NAME = input("请输入你的炉石用户名, 例子: \"为所欲为、异灵术#54321\" (不用输入引号!)\n").strip()
 
+    sys_print(HEARTHSTONE_POWER_LOG_PATH)
+    sys_print("@" + MY_NAME + "@")
+
 
 class LogState:
     def __init__(self):

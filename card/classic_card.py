@@ -49,7 +49,7 @@ class Hex(SpellPointOppo):
 
 # 闪电风暴
 class LightningStorm(SpellNoPoint):
-    bias = -10
+    bias = -8
 
     @classmethod
     def best_h_and_arg(cls, state, hand_card_index):
@@ -148,7 +148,7 @@ class EarthenRingFarseer(MinionPointMine):
     @classmethod
     def utilize_delta_h_and_arg(cls, state, hand_card_index):
         best_h = 0.2 + state.my_hero.delta_h_after_heal(3)
-        if state.my_hero.health <= 10:
+        if state.my_hero.health <= 15:
             best_h += 4
         best_my_index = -1
 
@@ -243,6 +243,7 @@ class DoomSayer(MinionNoPoint):
             return 1,
         else:
             return state.oppo_heuristic_value - state.my_heuristic_value,
+
 
 # 雷铸战斧
 class StormforgedAxe(WeaponCard):

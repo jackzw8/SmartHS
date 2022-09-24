@@ -448,10 +448,22 @@ class StrategyHeroPower(StrategyEntity):
 
     @property
     def detail_hero_power(self):
-        if self.name == "次级治疗术":
-            return ID2CARD_DICT["LESSER_HEAL"]
         if self.name == "图腾召唤":
             return ID2CARD_DICT["TOTEMIC_CALL"]
+        if self.name == "次级治疗术":
+            return ID2CARD_DICT["LESSER_HEAL"]
         if self.name == "稳固射击":
             return ID2CARD_DICT["BALLISTA_SHOT"]
+        if self.name == "火焰冲击":
+            return ID2CARD_DICT["FIRE_BLAST"]
+        if self.name == "变形":
+            return ID2CARD_DICT["SHAPE_SHIFT"]
+        if self.name == "全副武装！":
+            return ID2CARD_DICT["ARMOR_UP"]
+        if self.name == "援军":
+            return ID2CARD_DICT["REINFORCE"]
+        if self.name == "生命分流":
+            return ID2CARD_DICT[""]
+        if self.name == "匕首精通":
+            return ID2CARD_DICT[""]
         return None

@@ -331,7 +331,10 @@ class StrategyState:
                 tmp_delta_h = 0
                 tmp_delta_h += oppo_minion.delta_h_after_damage(self.my_hero.attack)
                 tmp_delta_h -= self.my_hero.delta_h_after_damage(oppo_minion.attack)
-                if self.my_weapon is not None:
+                # 英雄血量低再额外扣减
+                if self.my_hero.health <= 10:
+                    tmp_delta_h -= 2
+                if self.my_weapon is not None:  # 可能武器要减耐久，不能乱砍
                     tmp_delta_h -= self.my_weapon.attack
 
                 debug_print(f"攻击决策: [-1]({self.my_hero.name})->"
@@ -343,7 +346,7 @@ class StrategyState:
                     max_my_index = -1
                     max_oppo_index = oppo_index
 
-        debug_print(f"最终决策: max_my_index: {max_my_index}, "
+        debug_print(f"@最终决策: max_my_index: {max_my_index}, "
                     f"max_oppo_index: {max_oppo_index}")
 
         return max_my_index, max_oppo_index
@@ -378,6 +381,8 @@ class StrategyState:
         best_index = -2
         best_args = []
 
+        debug_print(f"水晶: {self.my_last_mana}/{self.my_total_mana}")
+
         # 考虑使用手牌
         for hand_card_index, hand_card in enumerate(self.my_hand_cards):
             delta_h = 0
@@ -389,17 +394,17 @@ class StrategyState:
 
             detail_card = hand_card.detail_card
             if detail_card is None:
-#               if hand_card.cardtype == CARD_MINION and not hand_card.battlecry:
-                if hand_card.cardtype == CARD_MINION:
+                # if hand_card.cardtype == CARD_MINION and not hand_card.battlecry:
+                if hand_card.cardtype == CARD_MINION:  # 随从使用缺省算法
                     delta_h, *args = MinionNoPoint.best_h_and_arg(self, hand_card_index)
                     debug_print(f"卡牌-[{hand_card_index}]({hand_card.name}) "
-                                f"delta_h: {delta_h}, *args: {[]} (默认行为) ")
+                                f"delta_h: {delta_h}, *args: {[]} ")
                 else:
                     debug_print(f"卡牌[{hand_card_index}]({hand_card.name})无法评判")
             else:
                 delta_h, *args = detail_card.best_h_and_arg(self, hand_card_index)
                 debug_print(f"卡牌-[{hand_card_index}]({hand_card.name}) "
-                            f"delta_h: {delta_h}, *args: {args} (手写行为)")
+                            f"delta_h: {delta_h}, *args: {args} (定制)")
 
             if delta_h > best_delta_h:
                 best_delta_h = delta_h
@@ -431,7 +436,7 @@ class StrategyState:
 
     def use_best_entity(self, index, args):
         if index == -1:
-            debug_print("将使用技能")
+            debug_print("@将使用技能")
             hero_power = self.my_detail_hero_power
             hero_power.use_with_arg(self, -1, *args)
         else:
@@ -441,7 +446,7 @@ class StrategyState:
     def use_card(self, index, *args):
         hand_card = self.my_hand_cards[index]
         detail_card = hand_card.detail_card
-        debug_print(f"将使用卡牌[{index}] {hand_card.name}")
+        debug_print(f"@将使用卡牌[{index}] {hand_card.name}")
 
         if detail_card is None:
             MinionNoPoint.use_with_arg(self, index, *args)

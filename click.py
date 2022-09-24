@@ -19,18 +19,19 @@ def rand_sleep(interval):
 
 
 def click_button(x, y, button):
-    x = x*SCALE
-    y = y*SCALE
+    x = x * SCALE
+    y = y * SCALE
     x += random.randint(-5, 5)
     y += random.randint(-5, 5)
     mouse = Controller()
     rand_sleep(0.1)
     mouse.position = (x, y)
-    #debug_print(mouse.position)
+    # debug_print(mouse.position)
     rand_sleep(0.1)
     mouse.press(button)
     rand_sleep(0.1)
     mouse.release(button)
+
 
 def click_button_old(x, y, button):
     x += random.randint(-5, 5)
@@ -42,6 +43,7 @@ def click_button_old(x, y, button):
     mouse.press(button)
     rand_sleep(0.1)
     mouse.release(button)
+
 
 def left_click(x, y):
     click_button(x, y, Button.left)
@@ -206,6 +208,32 @@ def use_skill_no_point():
     cancel_click()
 
 
+def use_skill_point_oppo(op_index, op_num):
+    click_skill()
+    if op_index >= 0:
+        choose_opponent_minion(op_index, op_num)
+    else:
+        choose_oppo_hero()
+
+    cancel_click()
+
+    '''
+    def use_with_arg(cls, state, card_index, *args):
+        if len(args) == 0:
+            hand_card = state.my_hand_cards[card_index]
+            warn_print(f"Receive 0 args in using SpellPointOppo card {hand_card.name}")
+            return
+        oppo_index = args[0]
+        click.choose_card(card_index, state.my_hand_card_num)
+        if oppo_index >= 0:
+            click.choose_opponent_minion(oppo_index, state.oppo_minion_num)
+        else:
+            click.choose_oppo_hero()
+        click.cancel_click()
+        time.sleep(cls.wait_time)
+    '''
+
+
 def use_skill_point_mine(my_index, my_num):
     click_skill()
 
@@ -259,5 +287,5 @@ def enter_HS():
     rand_sleep(1)
 
     left, top, right, bottom = win32gui.GetWindowRect(battlenet_hwnd)
-    #left_click(left + 180, bottom - 110)
+    # left_click(left + 180, bottom - 110)
     click_button_old(left + 180, bottom - 110, Button.left)
