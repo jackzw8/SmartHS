@@ -19,17 +19,11 @@ def print_info_init():
     if not os.path.exists("./log/"):
         os.mkdir("./log/")
 
-    #    error_file_handle = open("./log/error_log.txt", "w", encoding="utf8")
-    #    warn_file_handle = open("./log/warn_log.txt", "w", encoding="utf8")
-    #    debug_file_handle = open("./log/debug_log.txt", "w", encoding="utf8")
-    #    sys_file_handle = open("./log/sys_log.txt", "w", encoding="utf8")
-    #    info_file_handle = open("./log/info_log.txt", "w", encoding="utf8")
-
     error_file_handle = open("./log/error_log.txt", "a", encoding="utf8")
     warn_file_handle = open("./log/warn_log.txt", "a", encoding="utf8")
-    debug_file_handle = open("./log/debug_log.txt", "a", encoding="utf8")
-    sys_file_handle = open("./log/sys_log.txt", "a", encoding="utf8")
     info_file_handle = open("./log/info_log.txt", "a", encoding="utf8")
+    debug_file_handle = open("./log/debug_log.txt", "w", encoding="utf8")
+    sys_file_handle = open("./log/sys_log.txt", "a", encoding="utf8")
 
 
 def print_info_close():
@@ -51,7 +45,7 @@ def print_info_close():
     info_file_handle = None
 
 def current_time():
-    return time.strftime("%H:%M:%S", time.localtime())
+    return time.strftime("%D %H:%M:%S", time.localtime())
 
 def error_print(error_str):
     error_str = f"[{current_time()} ERROR] {error_str}"

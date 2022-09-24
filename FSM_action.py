@@ -71,7 +71,7 @@ def update_log_state():
 def system_exit():
     global quitting_flag
 
-    sys_print(f"一共完成了{game_count}场对战, 赢了{win_count}场")
+    sys_print(f"一共完成了{game_count}场对战, 赢了{win_count}场!")
     print_info_close()
 
     quitting_flag = True
@@ -84,23 +84,25 @@ def print_out():
     global time_begin
     global game_count
 
-    sys_print("Enter State " + str(FSM_state))
+    info_print("-- 进入状态 " + str(FSM_state) + " --")
 
     if FSM_state == FSM_LEAVE_HS:
         warn_print("HearthStone not found! Try to go back to HS")
 
     if FSM_state == FSM_CHOOSING_CARD:
         game_count += 1
-        sys_print("The " + str(game_count) + " game begins")
+        sys_print("-" * 60)
+        sys_print("第 " + str(game_count) + " 场开始")
         time_begin = time.time()
 
     if FSM_state == FSM_QUITTING_BATTLE:
-        sys_print("The " + str(game_count) + " game ends")
+        sys_print("第 " + str(game_count) + " 场结束")
         time_now = time.time()
         if time_begin > 0:
-            info_print("The last game last for : {} mins {} secs"
-                       .format(int((time_now - time_begin) // 60),
-                               int(time_now - time_begin) % 60))
+            sys_print("本场耗时 : {} 分 {} 秒"
+                      .format(int((time_now - time_begin) // 60),
+                              int(time_now - time_begin) % 60))
+        sys_print("-" * 60)
 
     return
 
@@ -128,9 +130,9 @@ def MatchingAction():
     print_out()
     loop_count = 0
 
-    while True:
-        if quitting_flag:
-            sys.exit(0)
+    while not quitting_flag:
+        # if quitting_flag:
+        #     sys.exit(0)
 
         time.sleep(STATE_CHECK_INTERVAL)
 
@@ -160,7 +162,7 @@ def ChoosingCardAction():
     loop_count = 0
     has_print = 0
 
-    while True:
+    while not quitting_flag:
         ok = update_log_state()
 
         if not ok:
@@ -215,20 +217,28 @@ def Battling():
     mine_count = 0
     last_controller_is_me = False
 
-    while True:
-        if quitting_flag:
-            sys.exit(0)
+    while not quitting_flag:
+        # if quitting_flag:
+        #     sys.exit(0)
 
         ok = update_log_state()
         if not ok:
             return FSM_ERROR
 
         if log_state.is_end:
+            my_hero = log_state.entity_dict[ \
+                log_state.my_entity.query_tag("HERO_ENTITY")]
+            oppo_hero = log_state.entity_dict[ \
+                log_state.oppo_entity.query_tag("HERO_ENTITY")]
+            sys_print(log_state.my_name + " vs. " + log_state.oppo_name)
+            sys_print("我方英雄：" + my_hero.name + "("+my_hero.query_tag('HEALTH')+")")
+            sys_print("对方英雄：" + oppo_hero.name + "("+oppo_hero.query_tag('HEALTH')+")")
             if log_state.my_entity.query_tag("PLAYSTATE") == "WON":
                 win_count += 1
-                info_print("你赢得了这场对战")
+                sys_print("恭喜，你赢了！共赢了 " + str(win_count) + " 盘！")
             else:
-                info_print("你输了")
+                sys_print("遗憾，你输了！")
+            sys_print("本人第 " + log_state.my_entity.query_tag("TURN") + " 回合")
             return FSM_QUITTING_BATTLE
 
         # 在对方回合等就行了
@@ -299,9 +309,9 @@ def QuittingBattle():
     time.sleep(5)
 
     loop_count = 0
-    while True:
-        if quitting_flag:
-            sys.exit(0)
+    while not quitting_flag:
+        # if quitting_flag:
+        #     sys.exit(0)
 
         state = get_screen.get_state()
         if state in [FSM_CHOOSING_HERO, FSM_LEAVE_HS]:
@@ -340,9 +350,9 @@ def MainMenuAction():
 
     time.sleep(3)
 
-    while True:
-        if quitting_flag:
-            sys.exit(0)
+    while not quitting_flag:
+        # if quitting_flag:
+        #     sys.exit(0)
 
         click.enter_battle_mode()
         time.sleep(5)
@@ -361,7 +371,9 @@ def MainMenuAction():
 def WaitMainMenu():
     print_out()
     while get_screen.get_state() != FSM_MAIN_MENU:
-        #click.click_middle()  # middle有可能点了中间别的窗口之类
+        if quitting_flag:
+            sys.exit(0)
+        # click.click_middle()  # middle有可能点了中间别的窗口之类
         click.test_click()
         time.sleep(5)
     return FSM_MAIN_MENU
@@ -414,17 +426,17 @@ def AutoHS_automata():
         get_screen.move_window_foreground(hs_hwnd)
         time.sleep(0.5)
 
-    while 1:
-        if quitting_flag:
-            sys.exit(0)
+    while not quitting_flag:
+        # if quitting_flag:
+        #     sys.exit(0)
         if FSM_state == "":
             FSM_state = get_screen.get_state()
         FSM_state = FSM_dispatch(FSM_state)
 
+
 #        FSM_state = get_screen.get_state()
 #        debug_print(FSM_state)
 #        time.sleep(1)
-
 
 
 if __name__ == "__main__":

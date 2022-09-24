@@ -126,7 +126,7 @@ def get_state():
         return FSM_LEAVE_HS
 
     im_opencv = catch_screen()
-    debug_print(im_opencv[100][100][:3])
+    # debug_print(im_opencv[100][100][:3])
     state = ""
     if pixel_very_similar(im_opencv, 100, 100, [21, 25, 53]) or \
             pixel_very_similar(im_opencv, 305, 705, [21, 43, 95]):  # ？ 万圣节主界面会变
@@ -139,7 +139,7 @@ def get_state():
         state = FSM_CHOOSING_CARD
     else:
         state = FSM_BATTLING
-    debug_print(state)
+    # debug_print(state)
     return state
 
 # def image_hash(img):
