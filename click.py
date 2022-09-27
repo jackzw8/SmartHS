@@ -1,3 +1,7 @@
+"""
+    模拟点击屏幕模块
+"""
+
 import win32gui
 import win32api
 import win32con
@@ -13,12 +17,14 @@ from get_screen import *
 
 
 def rand_sleep(interval):
+    """休眠interval秒左右"""
     base_time = interval * 0.75
     rand_time = interval * 0.5 * random.random()  # avg = 0.25 * interval
     time.sleep(base_time + rand_time)
 
 
 def click_button(x, y, button):
+    """鼠标点击 但按SCALE比例放大或缩小  x,y 5内随机加减 """
     x = x * SCALE
     y = y * SCALE
     x += random.randint(-5, 5)
@@ -34,6 +40,7 @@ def click_button(x, y, button):
 
 
 def click_button_old(x, y, button):
+    """鼠标点击 x,y 5内随机加减 """
     x += random.randint(-5, 5)
     y += random.randint(-5, 5)
     mouse = Controller()
@@ -54,6 +61,7 @@ def right_click(x, y):
 
 
 def choose_my_minion(mine_index, mine_num):
+    """选择我方场上随从"""
     rand_sleep(OPERATE_INTERVAL)
     x = 960 - (mine_num - 1) * 70 + mine_index * 140
     y = 600
@@ -61,11 +69,13 @@ def choose_my_minion(mine_index, mine_num):
 
 
 def choose_my_hero():
+    """选择我方英雄"""
     rand_sleep(OPERATE_INTERVAL)
     left_click(960, 850)
 
 
 def choose_opponent_minion(oppo_index, oppo_num):
+    """选择对方场上随从"""
     rand_sleep(OPERATE_INTERVAL)
     x = 960 - (oppo_num - 1) * 70 + oppo_index * 140
     y = 400
@@ -73,20 +83,24 @@ def choose_opponent_minion(oppo_index, oppo_num):
 
 
 def choose_oppo_hero():
+    """选择对方英雄"""
     rand_sleep(OPERATE_INTERVAL)
     left_click(960, 200)
 
 
 def cancel_click():
+    """右键点击  取消一些操作"""
     rand_sleep(TINY_OPERATE_INTERVAL)
     right_click(50, 400)
 
 
 def test_click():
+    """测试左键点击  用到一些点击跳过的情况"""
     rand_sleep(TINY_OPERATE_INTERVAL)
     left_click(50, 400)
 
 
+# 手牌位置
 HAND_CARD_X = [
     [],  # 0
     [885],  # 1
@@ -103,6 +117,7 @@ HAND_CARD_X = [
 
 
 def choose_card(card_index, card_num):
+    """选中指定手牌"""
     rand_sleep(OPERATE_INTERVAL)
 
     assert 0 <= card_index < card_num <= 10
@@ -113,6 +128,7 @@ def choose_card(card_index, card_num):
     left_click(x, y)
 
 
+# 对战开始的留换卡牌位置
 STARTING_CARD_X = {
     3: [600, 960, 1320],
     5: [600, 850, 1100, 1350],
@@ -120,6 +136,7 @@ STARTING_CARD_X = {
 
 
 def replace_starting_card(card_index, hand_card_num):
+    """选中要换掉的牌"""
     assert hand_card_num in STARTING_CARD_X
     assert card_index < len(STARTING_CARD_X[hand_card_num])
 
@@ -128,22 +145,26 @@ def replace_starting_card(card_index, hand_card_num):
 
 
 def click_middle():
+    """选中屏幕中央"""
     rand_sleep(OPERATE_INTERVAL)
     left_click(960, 500)
 
 
 def click_setting():
+    """选中'选项'按钮"""
     rand_sleep(OPERATE_INTERVAL)
     left_click(1880, 1050)
 
 
 def choose_and_use_spell(card_index, card_num):
+    """施放法术牌, 无指向性的"""
     choose_card(card_index, card_num)
     click_middle()
 
 
 # 第[i]个随从左边那个空隙记为第[i]个gap
 def put_minion(gap_index, minion_num):
+    """选中一个场上的随从"""
     rand_sleep(OPERATE_INTERVAL)
 
     if minion_num >= 7:
@@ -155,6 +176,7 @@ def put_minion(gap_index, minion_num):
 
 
 def match_opponent():
+    """点击对战按钮"""
     # 一些奇怪的错误提示
     commit_error_report()
     rand_sleep(OPERATE_INTERVAL)
@@ -162,6 +184,7 @@ def match_opponent():
 
 
 def enter_battle_mode():
+    """点击传统对战按钮"""
     # 一些奇怪的错误提示
     commit_error_report()
     rand_sleep(OPERATE_INTERVAL)
@@ -169,11 +192,13 @@ def enter_battle_mode():
 
 
 def commit_choose_card():
+    """确定留换牌的选择"""
     rand_sleep(OPERATE_INTERVAL)
     left_click(960, 850)
 
 
 def end_turn():
+    """点击回合结束按钮"""
     rand_sleep(OPERATE_INTERVAL)
     left_click(1550, 500)
 
@@ -186,6 +211,7 @@ def commit_error_report():
 
 
 def emoj(target=None):
+    """发表情"""
     emoj_list = [(800, 880), (800, 780), (800, 680), (1150, 680), (1150, 780)]
     right_click(960, 830)
     rand_sleep(OPERATE_INTERVAL)
@@ -199,16 +225,19 @@ def emoj(target=None):
 
 
 def click_skill():
+    """点击技能"""
     rand_sleep(OPERATE_INTERVAL)
     left_click(1150, 850)
 
 
 def use_skill_no_point():
+    """使用无指向性的技能"""
     click_skill()
     cancel_click()
 
 
 def use_skill_point_oppo(op_index, op_num):
+    """使用技能，指向对方英雄或随从"""
     click_skill()
     if op_index >= 0:
         choose_opponent_minion(op_index, op_num)
@@ -235,6 +264,7 @@ def use_skill_point_oppo(op_index, op_num):
 
 
 def use_skill_point_mine(my_index, my_num):
+    """使用技能，指向我方英雄或随从"""
     click_skill()
 
     if my_index < 0:
@@ -246,30 +276,35 @@ def use_skill_point_mine(my_index, my_num):
 
 
 def minion_beat_minion(mine_index, mine_number, oppo_index, oppo_num):
+    """我方随从攻击对方随从"""
     choose_my_minion(mine_index, mine_number)
     choose_opponent_minion(oppo_index, oppo_num)
     cancel_click()
 
 
 def minion_beat_hero(mine_index, mine_number):
+    """我方随从攻击对方英雄"""
     choose_my_minion(mine_index, mine_number)
     choose_oppo_hero()
     cancel_click()
 
 
 def hero_beat_minion(oppo_index, oppo_num):
+    """我方英雄攻击对方随从"""
     choose_my_hero()
     choose_opponent_minion(oppo_index, oppo_num)
     cancel_click()
 
 
 def hero_beat_hero():
+    """我方英雄攻击对方英雄"""
     choose_my_hero()
     choose_oppo_hero()
     cancel_click()
 
 
 def enter_HS():
+    """通过战网客户端进入炉石"""
     rand_sleep(1)
 
     if test_hs_available():

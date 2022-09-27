@@ -1,7 +1,11 @@
+"""
+逻辑处理主要模块，主要是界面的一些交互等。
+FSM 含义?
+"""
+
 import random
 import sys
 import time
-
 import keyboard
 
 import click
@@ -9,17 +13,20 @@ import get_screen
 from strategy import StrategyState
 from log_state import *
 
+# 全局变量
 FSM_state = ""
 time_begin = 0.0
 game_count = 0
 win_count = 0
 quitting_flag = False
+
 log_state = LogState()
 log_iter = log_iter_func(HEARTHSTONE_POWER_LOG_PATH)
 choose_hero_count = 0
 
 
 def init():
+    """初始化，读取日志文件Power.log（炉石日志）"""
     global log_state, log_iter, choose_hero_count
 
     # 有时候炉石退出时python握着Power.log的读锁, 因而炉石无法
@@ -47,6 +54,7 @@ def init():
 
 
 def update_log_state():
+    """获取炉石日志最新数据"""
     log_container = next(log_iter)
     if log_container.log_type == LOG_CONTAINER_ERROR:
         return False
@@ -56,7 +64,7 @@ def update_log_state():
         # if not ok:
         #     return False
 
-    if DEBUG_FILE_WRITE:
+    if DEBUG_FILE_WRITE:  # 记录当前状态快照
         with open("./log/game_state_snapshot.txt", "w", encoding="utf8") as f:
             f.write(str(log_state))
 
@@ -69,6 +77,7 @@ def update_log_state():
 
 
 def system_exit():
+    """系统退出。把退出状态quitting_flag设为True"""
     global quitting_flag
 
     sys_print(f"一共完成了{game_count}场对战, 赢了{win_count}场!")
@@ -80,6 +89,7 @@ def system_exit():
 
 
 def print_out():
+    """根据不同状态打印相关日志"""
     global FSM_state
     global time_begin
     global game_count
@@ -106,6 +116,7 @@ def print_out():
 
 
 def ChoosingHeroAction():
+    """选择卡组界面处理，实际只是点击对战按钮"""
     global choose_hero_count
 
     print_out()
@@ -125,6 +136,7 @@ def ChoosingHeroAction():
 
 
 def MatchingAction():
+    """对手匹配界面处理"""
     print_out()
     loop_count = 0
 
@@ -152,6 +164,7 @@ def MatchingAction():
 
 
 def ChoosingCardAction():
+    """留换牌处理"""
     global choose_hero_count
     choose_hero_count = 0
 
@@ -206,6 +219,7 @@ def ChoosingCardAction():
 
 
 def Battling():
+    """对战界面处理。本模块主要功能点！"""
     global win_count
     global log_state
 
@@ -223,14 +237,15 @@ def Battling():
         if not ok:
             return FSM_ERROR
 
+        # 对战结束后记录相关信息
         if log_state.is_end:
             my_hero = log_state.entity_dict[ \
                 log_state.my_entity.query_tag("HERO_ENTITY")]
             oppo_hero = log_state.entity_dict[ \
                 log_state.oppo_entity.query_tag("HERO_ENTITY")]
             sys_print(log_state.my_name + " vs. " + log_state.oppo_name)
-            sys_print("我方英雄：" + my_hero.name + "("+my_hero.query_tag('HEALTH')+")")
-            sys_print("对方英雄：" + oppo_hero.name + "("+oppo_hero.query_tag('HEALTH')+")")
+            sys_print("我方英雄：" + my_hero.name + "(" + my_hero.query_tag('HEALTH') + ")")
+            sys_print("对方英雄：" + oppo_hero.name + "(" + oppo_hero.query_tag('HEALTH') + ")")
             if log_state.my_entity.query_tag("PLAYSTATE") == "WON":
                 win_count += 1
                 sys_print("---恭喜，你赢了！共赢了 " + str(win_count) + " 盘！---")
@@ -239,7 +254,7 @@ def Battling():
             sys_print("本人第 " + log_state.my_entity.query_tag("TURN") + " 回合")
             return FSM_QUITTING_BATTLE
 
-        # 在对方回合等就行了
+        # 对方回合，等就行了
         if not log_state.is_my_turn:
             last_controller_is_me = False
             mine_count = 0
@@ -251,9 +266,9 @@ def Battling():
 
             continue
 
-        # 接下来考虑在我的回合的出牌逻辑
+        # 接下来考虑在我的回合的出牌逻辑。重点！！！
 
-        # 如果是这个我的回合的第一次操作
+        # 如果是这个我的回合的第一次操作。 发表情
         if not last_controller_is_me:
             time.sleep(4)
             # 在游戏的第一个我的回合, 发一个你好
@@ -280,9 +295,9 @@ def Battling():
 
         debug_print("-" * 60)
         strategy_state = StrategyState(log_state)
-        strategy_state.debug_print_out()
+        strategy_state.debug_print_out()  # 打印双方信息
 
-        # 考虑要不要出牌
+        # 1.考虑要不要出牌。  策略的重点，智能点所在！！！
         index, args = strategy_state.best_h_index_arg()
 
         # index == -1 代表使用技能, -2 代表不出牌
@@ -290,7 +305,7 @@ def Battling():
             strategy_state.use_best_entity(index, args)
             continue
 
-        # 如果不出牌, 考虑随从怎么打架
+        # 2.如果不出牌, 考虑随从怎么对战。  策略的重点，智能点所在！！！
         my_index, oppo_index = strategy_state.get_best_attack_target()
 
         # my_index == -1代表英雄攻击, -2 代表不攻击
@@ -300,8 +315,11 @@ def Battling():
             click.end_turn()
             time.sleep(STATE_CHECK_INTERVAL)
 
+        # 3. TODO 出牌和对战的配合策略？
+
 
 def QuittingBattle():
+    """对战结束后处理"""
     print_out()
 
     time.sleep(5)
@@ -326,6 +344,7 @@ def QuittingBattle():
 
 
 def GoBackHSAction():
+    """通过战网客户端点开始按钮进入炉石"""
     global FSM_state
 
     print_out()
@@ -344,6 +363,7 @@ def GoBackHSAction():
 
 
 def MainMenuAction():
+    """炉石主界面处理. 主是点击进入传统对战."""
     print_out()
 
     time.sleep(3)
@@ -367,6 +387,7 @@ def MainMenuAction():
 
 
 def WaitMainMenu():
+    """等待进入炉石主界面.  有可能卡在这个方法里,一直等?"""
     print_out()
     while get_screen.get_state() != FSM_MAIN_MENU:
         if quitting_flag:
@@ -378,6 +399,7 @@ def WaitMainMenu():
 
 
 def HandleErrorAction():
+    """出错处理"""
     print_out()
 
     if not get_screen.test_hs_available():
@@ -397,6 +419,7 @@ def HandleErrorAction():
 
 
 def FSM_dispatch(next_state):
+    """分发状态处理器"""
     dispatch_dict = {
         FSM_LEAVE_HS: GoBackHSAction,
         FSM_MAIN_MENU: MainMenuAction,
@@ -416,7 +439,8 @@ def FSM_dispatch(next_state):
         return dispatch_dict[next_state]()
 
 
-def AutoHS_automata():
+def SmartHS_go():
+    """脚本执行入口. 前置炉石窗口,检查界面状态,分发处理器."""
     global FSM_state
 
     if get_screen.test_hs_available():
