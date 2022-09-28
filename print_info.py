@@ -1,3 +1,8 @@
+"""
+    日志打印模块. 日志级别: debug,info,warn,error.
+    sys主要是打印常规记录信息.
+"""
+
 from constants.constants import *
 import os
 import time

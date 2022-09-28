@@ -1,3 +1,7 @@
+"""
+    窗口操作及屏幕截图判断
+"""
+
 import win32gui
 import win32ui
 import win32con
@@ -11,6 +15,7 @@ from constants.constants import *
 
 
 def get_HS_hwnd():
+    """获得炉石窗口"""
     hwnd = win32gui.FindWindow(None, "炉石传说")
     if hwnd != 0:
         return hwnd
@@ -24,6 +29,7 @@ def get_HS_hwnd():
 
 
 def get_battlenet_hwnd():
+    """获得战网窗口"""
     hwnd = win32gui.FindWindow(None, "战网")
     if hwnd != 0:
         return hwnd
@@ -33,10 +39,12 @@ def get_battlenet_hwnd():
 
 
 def test_hs_available():
+    """是否获得炉石窗口"""
     return get_HS_hwnd() != 0
 
 
 def move_window_foreground(hwnd, name=""):
+    """把窗口移动到前台"""
     try:
         win32gui.BringWindowToTop(hwnd)
         shell = win32com.client.Dispatch("WScript.Shell")
@@ -63,6 +71,7 @@ def max_diff(img, pixel_list):
 
 
 def catch_screen(name=None):
+    """屏幕截图"""
     # 第一个参数是类名，第二个参数是窗口名字
     # hwnd -> Handle to a Window !
     # 如果找不到对应名字的窗口，返回0
@@ -108,6 +117,7 @@ def catch_screen(name=None):
 
 
 def pixel_very_similar(im_opencv, y, x, expected_val):
+    """比较点位像素的值"""
     img_val = im_opencv[y][x][:3]
 
     diff = abs(img_val[0] - expected_val[0]) + \
@@ -121,6 +131,7 @@ def pixel_very_similar(im_opencv, y, x, expected_val):
 
 
 def get_state():
+    """根据预先设置的像素点位值来判断是那个界面"""
     hwnd = get_HS_hwnd()
     if hwnd == 0:
         return FSM_LEAVE_HS
@@ -152,6 +163,7 @@ def get_state():
 
 
 def terminate_HS():
+    """结束炉石窗口"""
     hwnd = get_HS_hwnd()
     if hwnd == 0:
         return
