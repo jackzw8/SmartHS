@@ -1,15 +1,19 @@
 # 你的Power.log的路径, 应该在你的炉石安装目录下的`Logs/`文件夹中, 这里放的是我的路径
 # ** 一定要修改成自己电脑上的路径 **
-HEARTHSTONE_POWER_LOG_PATH = "D:/战网/Hearthstone/Logs/Power.log"
+HEARTHSTONE_POWER_LOG_PATH = "F:/GA/HS/Hearthstone/Logs/Power.log"
 
 # 你的炉石用户名, 注意英文标点符号'#', 把后面的数字也带上
 # 可以输入中文
 YOUR_NAME = "ChangeThis#54321"
 
 # 分辨率及缩放
-WIDTH = 1280  # 1280
-HEIGHT = 720  # 720
-SCALE = 2/3   # 2/3
+WIDTH = 1280  # 1280  1920
+HEIGHT = 720  # 720   1080
+SCALE = 2/3   # 2/3   1
+
+# 初始界面状态  "" 或 "Choosing Hero"
+FIRST_STATE = "Choosing Hero"
+
 
 # 关于控制台信息打印的设置
 DEBUG_PRINT = True

@@ -23,4 +23,10 @@ if __name__ == "__main__":
     check_name()
     init()
     keyboard.add_hotkey("ctrl+q", system_exit)
-    SmartHS_go()
+
+    # SmartHS_go()
+    # 如果因分辨率,屏幕检查等从正式入口有问题,可直接手动从选卡组界面开始.
+    # 但还是要在constants中设置好分辨率及相对1920*1080的缩放比例.
+    if FIRST_STATE:
+        gl.set_value("state",FIRST_STATE)
+    SmartHS_go(FIRST_STATE)

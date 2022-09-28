@@ -12,6 +12,7 @@ import click
 import get_screen
 from strategy import StrategyState
 from log_state import *
+import constants.global_var as gl
 
 # 全局变量
 FSM_state = ""
@@ -340,6 +341,11 @@ def QuittingBattle():
         click.commit_error_report()
 
         loop_count += 1
+        # 针对直接从state进入脚本的处理
+        if gl.get_value("state"):
+            if loop_count >= 4:
+                return gl.get_value("state")
+
         if loop_count >= 15:
             return FSM_ERROR
 
@@ -442,9 +448,10 @@ def FSM_dispatch(next_state):
         return dispatch_dict[next_state]()
 
 
-def SmartHS_go():
+def SmartHS_go(state=""):
     """脚本执行入口. 前置炉石窗口,检查界面状态,分发处理器."""
     global FSM_state
+    FSM_state = state
 
     if get_screen.test_hs_available():
         hs_hwnd = get_screen.get_HS_hwnd()
