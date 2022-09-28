@@ -302,7 +302,9 @@ class StrategyState:
                 oppo_index = oppo_minion.zone_pos - 1
 
                 tmp_delta_h = 0
-                tmp_delta_h -= my_minion.delta_h_after_damage(oppo_minion.attack)
+                # 启发值大的要考虑一下。 启发值小的随从就直接送给对方启发值大的随从了，腾格子，打开随从交换的局面。
+                if my_minion.heuristic_val > 4 or oppo_minion.heuristic_val < 6:
+                    tmp_delta_h -= my_minion.delta_h_after_damage(oppo_minion.attack)
                 tmp_delta_h += oppo_minion.delta_h_after_damage(my_minion.attack)
 
                 debug_print(f"攻击决策：[{my_index}]({my_minion.name})->"

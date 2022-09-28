@@ -49,6 +49,7 @@ class StrategyEntity:
         return -1
 
 
+# 需要优先解掉的随从
 CRITICAL_MINION = {
     "VAN_NEW1_019": 1.5,  # 飞刀杂耍者
     "VAN_EX1_162": 1.5,  # 恐狼前锋

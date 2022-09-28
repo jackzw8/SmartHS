@@ -316,6 +316,9 @@ def Battling():
             time.sleep(STATE_CHECK_INTERVAL)
 
         # 3. TODO 出牌和对战的配合策略？
+        # 打脸的收益和解场的收益比较，这个是做了比较的，配置里也有参数配置。
+        # ？多个小随从解一个大随从，单个随从收益不高，但合作收益高。
+        # ？手牌和场从随从合作解一个大随从，也是同上理。
 
 
 def QuittingBattle():
