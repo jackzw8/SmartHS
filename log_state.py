@@ -4,18 +4,7 @@ from log_op import *
 from json_op import *
 from strategy_entity import *
 from print_info import *
-import constants.constants
-
-MY_NAME = constants.constants.YOUR_NAME
-
-
-def check_name():
-    global MY_NAME
-    if MY_NAME == "ChangeThis#54321":
-        MY_NAME = input("请输入你的炉石用户名, 例子: \"为所欲为、异灵术#54321\" (不用输入引号!)\n").strip()
-
-    sys_print(HEARTHSTONE_POWER_LOG_PATH)
-    sys_print("@" + MY_NAME + "@")
+import constants.global_var as gl
 
 
 class LogState:
@@ -326,7 +315,7 @@ def update_state(state, line_info_container):
         # 情形二 "TAG_CHANGE Entity=Example#51234"
         elif not entity_string.isdigit():
             # 关于为什么用 "in" 而非 "==", 因为我总是懒得输入后面的数字
-            if MY_NAME in entity_string:
+            if gl.get_value("MY_NAME") in entity_string:
                 entity_id = state.my_entity_id
                 if entity_string != state.my_name:
                     state.my_name = entity_string
@@ -384,7 +373,7 @@ def update_state(state, line_info_container):
         # 再重新启动炉石. 此时在构建过程中看到的第一个确切的卡可能是对手
         # 场上的怪而非我自己的手牌, 进而误判 my_player_id
         if player_id == state.oppo_player_id and \
-                MY_NAME in player_name:
+                gl.get_value("MY_NAME") in player_name:
             warn_print("my_player_id may be wrong")
             state.my_player_id, state.oppo_player_id = \
                 state.oppo_player_id, state.my_player_id
