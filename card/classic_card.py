@@ -26,7 +26,7 @@ class LightingBolt(SpellPointOppo):
 
 # 呱
 class Hex(SpellPointOppo):
-    bias = -6
+    bias = -7
     keep_in_hand_bool = False
 
     @classmethod
@@ -49,7 +49,7 @@ class Hex(SpellPointOppo):
 
 # 闪电风暴
 class LightningStorm(SpellNoPoint):
-    bias = -8
+    bias = -9
 
     @classmethod
     def best_h_and_arg(cls, state, hand_card_index):
@@ -123,6 +123,12 @@ class FireElemental(MinionPointOppo):
         return best_h, state.my_minion_num, best_oppo_index
 
 
+# 土元素
+class EarthElemental(MinionNoPoint):
+    value = 6
+    keep_in_hand_bool = False
+
+
 # 精灵弓箭手
 class ElvenArcher(MinionPointOppo):
     @classmethod
@@ -148,7 +154,7 @@ class EarthenRingFarseer(MinionPointMine):
     @classmethod
     def utilize_delta_h_and_arg(cls, state, hand_card_index):
         best_h = 0.2 + state.my_hero.delta_h_after_heal(3)
-        if state.my_hero.health <= 15:
+        if state.my_hero.health <= 10:
             best_h += 4
         best_my_index = -1
 

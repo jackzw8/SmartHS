@@ -39,6 +39,7 @@ ID2CARD_DICT = {
     "VAN_EX1_248": FeralSpirit,  # 野性狼魂
     "VAN_EX1_246": Hex,  # 妖术
     "VAN_CS2_042": FireElemental,  # 火元素
+    "VAN_EX1_250": EarthElemental,  # 土元素
 
     # 猎人
     "VAN_EX1_536": EaglehornBow,  # 鹰角弓
