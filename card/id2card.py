@@ -24,6 +24,7 @@ ID2CARD_DICT = {
     "VAN_NEW1_021": DoomSayer,  # 末日预言者
     "VAN_CS2_117": EarthenRingFarseer,  # 大地之环先知
     "VAN_EX1_085": MindControlTech,  # 精神控制技师
+    "VAN_EX1_007": AcolyteOfPain,  # 苦痛侍僧
     "VAN_EX1_590": BloodKnight,  # 血骑士
     "VAN_EX1_097": Abomination,  # 憎恶
     "VAN_EX1_284": AzureDrake,  # 碧蓝幼龙
