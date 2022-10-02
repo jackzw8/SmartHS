@@ -129,7 +129,8 @@ class MinionCard(Card):
                 h_sum += 0.5
 
         for oppo_minion in state.oppo_minions:
-            # 对方有末日大概率也别下怪了  ？
+            # 对方有末日大概率也别下怪了
+            # TODO 如果能解了末日也可以下怪的
             if oppo_minion.card_id == "VAN_NEW1_021":
                 h_sum += -1000
 
